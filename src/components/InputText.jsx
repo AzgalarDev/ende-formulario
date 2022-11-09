@@ -1,8 +1,8 @@
 import React from 'react';
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
+import { useField } from 'formik';
 
-  const InputText = ({ label, ref , ...props }) => {
+
+  const InputText = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input>. We can use field meta to show an error
   // message if the field is invalid and it has been touched (i.e. visited)

@@ -6,38 +6,59 @@ import * as Yup from 'yup'
 import InputText from '../components/InputText'
 import CheckboxInput from '../components/CheckboxInput';
 import SelectInput from '../components/SelectInput';
+import RadioInput from '../components/RadioInput';
 
   const FormRegister = () => {
     return (
       <>
-        <h1>Informacion</h1>
+        <h1>Regitro Usuario</h1>
         <Formik
           initialValues={{
             firstName: '',
             lastName: '',
             email: '',
+            emailsecondary: '',
+            password: '',
+            rePassword: '',
+            documentIdentification: '',
             acceptedTerms: false, // added for our checkbox
-            jobType: '', // added for our select
+            tipoDocument: '', // added for our select
+            picked: '', 
           }}
           validationSchema={Yup.object({
-            firstName: Yup.string()
-              .max(15, 'Must be 15 characters or less')
+            firstName: Yup.string().trim()
+              .max(15, 'Debe tener 15 caracteres o menos')
+              .required('Campo Requerido'),
+            lastName: Yup.string().trim()
+              .max(20, 'Debe tener 20 caracteres o menos')
+              .required('Campo Requerido'),
+            email: Yup.string().trim()
+              .email('Direccion de email invalido')
               .required('Required'),
-            lastName: Yup.string()
-              .max(20, 'Must be 20 characters or less')
+            emailSecondary: Yup.string().trim()
+              .email('Direccion de email invalido')
               .required('Required'),
-            email: Yup.string()
-              .email('Invalid email address')
-              .required('Required'),
+            password: Yup.string()
+              .required('No password provided.') 
+              .min(8, 'Contrasena corta - se aceptan minimo 8 caracteres')
+              .matches(/[a-zA-Z]/, 'Solo puede conterner letras minusculas'),
+            repassword: Yup.string()
+              .required('No password provided.') 
+              .min(8, 'contrasena corta - se aceptan minimo 8 caracteres')
+              .matches(/[a-zA-Z]/, 'Solo puede conterner letras minusculas'),
+            documentIdentification: Yup.string().trim()        
+              .required('Campo Requerido'),
             acceptedTerms: Yup.boolean()
-              .required('Required')
-              .oneOf([true], 'You must accept the terms and conditions.'),
-            jobType: Yup.string()
+              .required('Requerido')
+              .oneOf([true], 'Debes aceptar los terminos y condiciones.'),
+            tipoDocument: Yup.string().trim()
               .oneOf(
-                ['designer', 'development', 'product', 'other'],
-                'Invalid Job Type'
+                ['CI', 'Pasaporte'],
+                'Invalido'
               )
               .required('Required'),
+            picked: Yup.string()
+              .required("A radio option is required"),
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
@@ -46,39 +67,87 @@ import SelectInput from '../components/SelectInput';
             }, 400);
           }}
         >
-          <Form>
+          <Form className='form'>
+            <h2>Datos de identificacion de usuario</h2>
             <InputText
-              label="First Name"
+              label="Correo Electronico"
+              name="email"
+              type="email"
+              placeholder="example@example.com"
+            />
+            <InputText
+              label="Reingrese Correo Electronico"
+              name="email"
+              type="email"
+              placeholder="example@example.com"
+            />
+            <InputText
+              label="Correo Alternatico"
+              name="emailSecondary"
+              type="email"
+              placeholder="example@example.com"
+            />
+            <InputText
+              label="Contrasena"
+              name="password"
+              type="password"
+              placeholder=""
+            />
+            <InputText
+              label="Reingrese Contrasena"
+              name="rePassword"
+              type="password"
+              placeholder=""
+            />
+            <SelectInput label="Tipo de doc.Informacion" name="tipoDocument">
+              <option value="">Seleccione un documento</option>
+              <option value="designer">CI</option>
+              <option value="designer">Pasaporte</option>            
+            </SelectInput>
+            <InputText
+              label="Documento de Identificacion"
+              name="documentIdentification"
+              type="text"
+              placeholder="Jane"
+            />
+            <SelectInput label="Expedidad en" name="typeCity">
+              <option value="">Seleccione una ciudad</option>
+              <option value="beni">Beni</option>
+              <option value="chuquisaca">Chuquisaca</option>
+              <option value="cochabamba">Cochabamba</option>
+              <option value="la paz">La Paz</option>
+              <option value="oruro">Oruro</option>
+              <option value="pando">Pando</option>
+              <option value="potosi">Potosí</option>
+              <option value="santa cruz">Santa Cruz</option>
+              <option value="tarija">Tarija</option>           
+            </SelectInput>
+            <InputText
+              label="Primer Nombre"
               name="firstName"
               type="text"
               placeholder="Jane"
             />
   
             <InputText
-              label="Last Name"
+              label="Primer Apellido"
               name="lastName"
               type="text"
               placeholder="Doe"
             />
   
-            <InputText
-              label="Email Address"
-              name="email"
-              type="email"
-              placeholder="jane@formik.com"
-            />
   
-            <SelectInput label="Job Type" name="jobType">
-              <option value="">Select a job type</option>
-              <option value="designer">Designer</option>
-              <option value="development">Developer</option>
-              <option value="product">Product Manager</option>
-              <option value="other">Other</option>
-            </SelectInput>
   
-            <CheckboxInput name="acceptedTerms">
+            <CheckboxInput name="acceptedTerms" >
               I accept the terms and conditions
             </CheckboxInput>
+
+            <RadioInput name="picked" value="Masculino">
+              Masculino 
+            </RadioInput>
+            <RadioInput name="picked" value="Femenino">
+              Femenino
+            </RadioInput>
   
             <button type="submit">Submit</button>
           </Form>
