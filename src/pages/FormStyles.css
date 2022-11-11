@@ -32,6 +32,32 @@
   --text-color: var(--gray-800);
   --focus-ring-color: var(--blue-500);
 }
+.container {
+  max-width: 1200px;
+  width: 90%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .form {
+    display: flex;
+    
+    
+  }
+}
+
+
 /* Typography
 ––––––––––––––––––––––––––––––––– */
 h1,
@@ -77,7 +103,7 @@ input[type="number"],
 input[type="password"],
 textarea,
 select {
-  width: 350px;
+  
 }
 
 select {
