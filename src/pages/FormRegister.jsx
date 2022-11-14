@@ -2,11 +2,13 @@ import React from "react";
 import { Formik, Form, useField } from "formik";
 import "../pages/FormStyles.css";
 import * as Yup from "yup";
+import axios from 'axios'
 
 import InputText from "../components/InputText";
 import CheckboxInput from "../components/CheckboxInput";
 import SelectInput from "../components/SelectInput";
 import RadioInput from "../components/RadioInput";
+
 
 const FormRegister = () => {
   return (
@@ -80,16 +82,33 @@ const FormRegister = () => {
         onSubmit={(values, { setSubmitting, resetForm }) => {
           console.log("here");
           let formData = new FormData();
-          formData.append("fullname", data.fullname);
-          formData.append("username", data.username);
-          formData.append("email", data.email);
-          formData.append("password", data.password);
+          formData.append("firstName", values.firstName);
+          formData.append("secondName", values.secondName);
+          formData.append("firstSurName", values.firstSurName);
+          formData.append("secondSurName", values.secondSurName);
+          formData.append("email", values.email);
+          formData.append("reenterEmail", values.reenterEmail);
+          formData.append("emailSecondary", values.emailSecondary);
+          formData.append("password", values.password);
+          formData.append("rePassword", values.rePassword);
+          formData.append("documentIdentification", values.documentIdentification);
+          formData.append("typeCity", values.typeCity);
+          formData.append("maritialStatus", values.maritialStatus);
+          formData.append("countryOfResidence", values.countryOfResidence);
+          formData.append("cityOfResidence", values.cityOfResidence);
+          formData.append("address", values.address);
+          formData.append("homePhone", values.homePhone);
+          formData.append("cellPhone", values.cellPhone);
+          formData.append("officePhone", values.officePhone);
+          formData.append("tipoDocument", values.tipoDocument);
+          formData.append("picked", values.picked);
 
           axios({
             method: "post",
-            url: "http://localhost/ende-fomulario/src/db/connect.php",
+            url: "http://localhost/ende/connection.php",
             data: formData,
             config: { headers: { "Content-Type": "multipart/form-data" } },
+            mode: "no cors",
           })
             .then(function (response) {
               //handle success
@@ -100,11 +119,11 @@ const FormRegister = () => {
               //handle error
               console.log(response);
             });
-          setTimeout(() => {
+          /*setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
             resetForm();
-          }, 400);
+          }, 400);*/
         }}
       >
         <Form className="form container">
